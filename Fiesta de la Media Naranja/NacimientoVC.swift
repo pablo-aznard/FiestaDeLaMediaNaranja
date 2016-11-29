@@ -22,7 +22,7 @@ class NacimientoVC: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func cancelSelected(_ segue: UIStoryboardSegue) {
+    @IBAction func cancel2Selected(_ segue: UIStoryboardSegue) {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
