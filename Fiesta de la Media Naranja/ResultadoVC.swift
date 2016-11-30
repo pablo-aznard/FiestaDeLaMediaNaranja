@@ -12,19 +12,26 @@ class ResultadoVC: UIViewController {
 
     var nacimiento: Date?
     var enamoramiento: Date?
+    var fechaResultadoF: String = ""
     
     @IBOutlet weak var nacimientoLabel: UILabel!
     @IBOutlet weak var enamoramientoLabel: UILabel!
     @IBOutlet weak var resultadoLabel: UILabel!
+    @IBOutlet weak var guardadoLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        nacimientoLabel.text = nacimiento?.description
-        enamoramientoLabel.text = enamoramiento?.description
+        nacimientoLabel.text = formatoFecha(fecha: nacimiento!)
+        enamoramientoLabel.text = formatoFecha(fecha: enamoramiento!)
         
         let fechaResultado = calculoFecha(fecha1: nacimiento!, fecha2: enamoramiento!)
-        let fechaResultadoF = formatoFecha(fecha: fechaResultado)
+        fechaResultadoF = formatoFecha(fecha: fechaResultado)
         resultadoLabel.text = fechaResultadoF
+        
+        let defaults = UserDefaults.standard
+        if let almacenado = defaults.object(forKey: "resultado") as? String {
+            guardadoLabel.text = almacenado
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -43,6 +50,14 @@ class ResultadoVC: UIViewController {
         dateFormatter.dateFormat = "dd-MM-yyyy"
         let fechaFormateada = dateFormatter.string(from: fecha)
         return fechaFormateada
+        
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        let defaults = UserDefaults.standard
+        defaults.set(fechaResultadoF, forKey: "resultado")
+        defaults.synchronize()
         
     }
     
